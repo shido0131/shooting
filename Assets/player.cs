@@ -34,15 +34,37 @@ public class player : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            transform.position += transform.right * 2;
+            if (gameObject.transform.position.x >= -10)
+            {
+                transform.position += transform.right * 2;
+            }
+            if(gameObject.transform.localEulerAngles.z <= 45)
+            {
+                transform.Rotate(new Vector3(0, 0, 0.5f));
+            }
         }
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            transform.position += transform.right * -2;
+            if (gameObject.transform.position.x <= 10)
+            {
+                transform.position += transform.right * -2;
+            }
+            if (gameObject.transform.localEulerAngles.z >= -45)
+            {
+                transform.Rotate(new Vector3(0, 0, -0.5f));
+            }
         }
         if (Input.GetKey(KeyCode.AltGr))
         {
 
+        }
+        if (gameObject.transform.localEulerAngles.z >= 0)
+        {
+            transform.Rotate(new Vector3(0, 0, -0.5f));
+        }
+        if (gameObject.transform.localEulerAngles.z <= 0)
+        {
+            transform.Rotate(new Vector3(0, 0, 0.5f));
         }
     }
 }
