@@ -6,11 +6,14 @@ public class player : MonoBehaviour
 {
     float ScoreS;
     float RemainingTimeS;
+    public AudioSource shot;
     public Text RemainingTime;
     public Text Score;
+    public GameObject Bullet;
     // Start is called before the first frame update
     void Start()
     {
+        shot = GetComponent<AudioSource>();
         RemainingTimeS = 100;
     }
 
@@ -20,51 +23,16 @@ public class player : MonoBehaviour
         RemainingTimeS -= Time.deltaTime;
         RemainingTime.text = "RemainingTime." + RemainingTimeS.ToString("f2");
         Score.text = "Score." + ScoreS.ToString("f0");
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.W))
         {
-            ScoreS += 1;
+            transform.position += transform.forward * 1;
         }
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.Space))
         {
-            transform.position += transform.up * 2;
-        }
-        if (Input.GetKey(KeyCode.DownArrow))
-        {
-            transform.position += transform.up * -2;
-        }
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            if (gameObject.transform.position.x >= -10)
-            {
-                transform.position += transform.right * 2;
-            }
-            if(gameObject.transform.localEulerAngles.z <= 45)
-            {
-                transform.Rotate(new Vector3(0, 0, 0.5f));
-            }
-        }
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            if (gameObject.transform.position.x <= 10)
-            {
-                transform.position += transform.right * -2;
-            }
-            if (gameObject.transform.localEulerAngles.z >= -45)
-            {
-                transform.Rotate(new Vector3(0, 0, -0.5f));
-            }
-        }
-        if (Input.GetKey(KeyCode.AltGr))
-        {
-
-        }
-        if (gameObject.transform.localEulerAngles.z >= 0)
-        {
-            transform.Rotate(new Vector3(0, 0, -0.5f));
-        }
-        if (gameObject.transform.localEulerAngles.z <= 0)
-        {
-            transform.Rotate(new Vector3(0, 0, 0.5f));
+            shot.PlayOneShot(shot.clip);
+            GameObject bullet;
+            bullet = GameObject.Instantiate(Bullet);
+            bullet.transform.position = transform.position;
         }
     }
 }
