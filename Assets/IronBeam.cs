@@ -15,6 +15,13 @@ public class IronBeam : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position += transform.right * -1;
+        transform.position += Vector3.forward * 1;
+    }
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.tag == "Bullet")
+        {
+            Destroy(other.gameObject);
+        }
     }
 }

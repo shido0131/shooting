@@ -13,10 +13,13 @@ public class BUllet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position += transform.right * 3;
+        transform.position += Vector3.forward * -2;
     }
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision other)
     {
-        
+        if (other.gameObject.tag == "Meteo")
+        {
+            Destroy(other.gameObject);
+        }
     }
 }
