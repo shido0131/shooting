@@ -4,9 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 public class player : MonoBehaviour
 {
-
-    int maxHp;
-    int currentHp;
     public Slider slider;
     float ScoreS;
     float RemainingTimeS;
@@ -20,11 +17,11 @@ public class player : MonoBehaviour
     void Start()
     {
         slider.value = 20;
-        currentHp = maxHp;
         //Debug.Log("Start currentHp : " + currentHp);
         shot = GetComponent<AudioSource>();
         GameOver = GetComponent<AudioSource>();
         RemainingTimeS = 100;
+       
     }
 
     // Update is called once per frame
@@ -41,10 +38,18 @@ public class player : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            shot.PlayOneShot(shot.clip);
             GameObject bullet;
             bullet = GameObject.Instantiate(Bullet);
             bullet.transform.position = transform.position;
+
+        }
+        if (slider.value == 0)
+        {
+            Destroy(this.gameObject);
+            GameObject Particle;
+            Particle = GameObject.Instantiate(particle);
+            Particle.transform.position = transform.position;
+            GameOver.PlayOneShot(GameOver.clip);
         }
     }
     private void OnCollisionStay(Collision collision)
@@ -52,11 +57,10 @@ public class player : MonoBehaviour
         if (collision.gameObject.tag == "Meteo")
         {
             int damage = Random.Range(1, 5);
-            //Debug.Log("damage : " + damage);
-            currentHp = currentHp - damage;
-            //Debug.Log("After currentHp : " + currentHp);
-            slider.value = (float)currentHp / (float)maxHp; ;
-            //Debug.Log("slider.value : " + slider.value);
+            slider.value -= damage;
+            Debug.Log("Damege");
+            Destroy(collision.gameObject);
+            shot.PlayOneShot(shot.clip);
         }
 
     }

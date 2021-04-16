@@ -25,15 +25,6 @@ public class IronBeam : MonoBehaviour
     }
     private void OnCollisionStay(Collision other)
     {
-        if (other.gameObject.tag == "Bullet")
-        {
-            Destroy(other.gameObject);
-            Debug.Log("delete");
-        }
-        if (other.gameObject.tag == "Player")
-        {
-            //Destroy(other.gameObject);
-            //Debug.Log("delete");
-        }
+
     }
 }

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BUllet : MonoBehaviour
 {
+    public GameObject particle;
+    public AudioSource shot;
     public float destroy;
     // Start is called before the first frame update
     void Start()
@@ -25,7 +27,12 @@ public class BUllet : MonoBehaviour
     {
         if (other.gameObject.tag == "Meteo")
         {
+            GameObject Particle;
+            Particle = GameObject.Instantiate(particle);
+            Particle.transform.position = transform.position;
+            shot.PlayOneShot(shot.clip);
             Destroy(other.gameObject);
+            Destroy(this.gameObject);
         }
     }
 }
