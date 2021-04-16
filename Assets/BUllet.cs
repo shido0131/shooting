@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BUllet : MonoBehaviour
 {
+    public float destroy;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,8 +15,13 @@ public class BUllet : MonoBehaviour
     void Update()
     {
         transform.position += Vector3.forward * -2;
+        destroy += Time.deltaTime;
+        if (destroy == 20)
+        {
+            Destroy(this.gameObject);
+        }
     }
-    private void OnCollisionEnter(Collision other)
+    private void OnCollisionStay(Collision other)
     {
         if (other.gameObject.tag == "Meteo")
         {
