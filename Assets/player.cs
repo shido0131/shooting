@@ -7,7 +7,7 @@ public class player : MonoBehaviour
     float X;
     float Z;
     Vector3 VZ;
-    float RX;
+    float RZ;
     float RMX;
     public Slider slider;
     float ScoreS;
@@ -16,89 +16,108 @@ public class player : MonoBehaviour
     public AudioSource GameOver;
     public Text RemainingTime;
     public Text Score;
+    public Image GameClearImage;
+    public Image GameOverImage;
     public GameObject Bullet;
     public GameObject particle;
     // Start is called before the first frame update
     void Start()
     {
+        GameClearImage.enabled = false;
+        GameOverImage.enabled = false;
         slider.value = 20;
         //Debug.Log("Start currentHp : " + currentHp);
         shot = GetComponent<AudioSource>();
         GameOver = GetComponent<AudioSource>();
-        RemainingTimeS = 100;
-       
+        RemainingTimeS = 50;
     }
     void Update()
     {
-        X = transform.position.x;
-        Z = transform.position.z;
-        RX = transform.rotation.x;
-        RMX = RX -90;
-        RemainingTimeS -= Time.deltaTime;
-        RemainingTime.text = "RemainingTime." + RemainingTimeS.ToString("f2");
-        Score.text = "Score." + ScoreS.ToString("f0");
-        
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (RemainingTimeS > 0)
         {
-            if (Z > -20)
-            {
-                transform.position += Vector3.forward * -1;
-            }
-        }
-        if (Input.GetKey(KeyCode.DownArrow))
-        {
-            if (Z < 20)
-            {
-                transform.position += Vector3.forward * 1;
-            }
-        }
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            if (RX > -110)
-            {
-                transform.Rotate(0f, 1f, 0f);
-            }
-            if (X < 20)
-            {
-                transform.position += Vector3.right * 1;
-            }
-        }else if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            if (RX < -70)
-            {
-                transform.Rotate(0f, -1f, 0f);
-            }
-            if (X>-20)
-            {
-                transform.position += Vector3.right * -1;
-            }
-        }else
-        {
-            if (RX>-90)
-            {
-                transform.Rotate(0f, -1f, 0f);
-            }
-            else if (RX<-90)
-            {
-                transform.Rotate(0f, 1f, 0f);
-            }
-        }
-        if (Input.GetKey(KeyCode.Space))
-        {
-            GameObject bullet;
-            bullet = GameObject.Instantiate(Bullet);
-            VZ = transform.position;
-            VZ.z -= 2;
-            bullet.transform.position = VZ;
+            X = transform.position.x;
+            Z = transform.position.z;
+            RZ = transform.rotation.z;
+            Debug.Log(RZ);
+            RemainingTimeS -= Time.deltaTime;
+            RemainingTime.text = "RemainingTime." + RemainingTimeS.ToString("f2");
+            Score.text = "Score." + ScoreS.ToString("f0");
 
-        }
-        if (slider.value == 0)
+            if (Input.GetKey(KeyCode.UpArrow))
+            {
+                if (Z > -20)
+                {
+                    transform.position += Vector3.forward * -1;
+                }
+            }
+            if (Input.GetKey(KeyCode.DownArrow))
+            {
+                if (Z < 20)
+                {
+                    transform.position += Vector3.forward * 1;
+                }
+            }
+            if (Input.GetKey(KeyCode.RightArrow))
+            {
+                if (RZ < 0.2)
+                {
+                    transform.Rotate(0f, 0f, 1f);
+                }
+                if (X < 20)
+                {
+                    transform.position += Vector3.right * 1;
+                }
+            }
+            else if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                if (RZ > -0.2)
+                {
+                    transform.Rotate(0f, 0f, -1f);
+                }
+                if (X > -20)
+                {
+                    transform.position += Vector3.right * -2;
+                }
+            }
+            else
+            {
+                if (RZ > 0.008)
+                {
+                    transform.Rotate(0f, 0f, -1f);
+                }
+                else if (RZ < -0.008)
+                {
+                    transform.Rotate(0f, 0f, 1f);
+                }
+            }
+            if (Input.GetKey(KeyCode.Space))
+            {
+                GameObject bullet;
+                bullet = GameObject.Instantiate(Bullet);
+                VZ = transform.position;
+                VZ.z -= 2;
+                bullet.transform.position = VZ;
+
+            }
+            if (slider.value == 0)
+            {
+                Destroy(this.gameObject);
+                GameObject Particle;
+                Particle = GameObject.Instantiate(particle);
+                Particle.transform.position = transform.position;
+                GameOver.PlayOneShot(GameOver.clip);
+            }
+        }else if (RemainingTimeS==0)
         {
             Destroy(this.gameObject);
-            GameObject Particle;
-            Particle = GameObject.Instantiate(particle);
-            Particle.transform.position = transform.position;
-            GameOver.PlayOneShot(GameOver.clip);
+            if (ScoreS >= 50)
+            {
+                GameClearImage.enabled = true;
+            }
+            else if (ScoreS < 50)
+            {
+                GameOverImage.enabled = true;
+            }
         }
     }
     private void OnCollisionStay(Collision collision)
