@@ -12,29 +12,33 @@ public class player : MonoBehaviour
     public Slider slider;
     float ScoreS;
     float RemainingTimeS;
+    float reload;
     public AudioSource shot;
     public AudioSource GameOver;
     public Text RemainingTime;
     public Text Score;
+    public Text Reload;
     public Image GameClearImage;
     public Image GameOverImage;
     public GameObject Bullet;
     public GameObject particle;
+    public GameObject camera;
+    private Transform camera_transform;
     // Start is called before the first frame update
     void Start()
     {
+        reload = 3;
+        camera_transform = camera.GetComponent<Transform>();
         GameClearImage.enabled = false;
         GameOverImage.enabled = false;
         slider.value = 20;
-        //Debug.Log("Start currentHp : " + currentHp);
-        shot = GetComponent<AudioSource>();
-        GameOver = GetComponent<AudioSource>();
         RemainingTimeS = 50;
     }
     void Update()
     {
         if (RemainingTimeS > 0)
         {
+//camera_transform.position = transform.position;
             X = transform.position.x;
             Z = transform.position.z;
             RZ = transform.rotation.z;
@@ -47,14 +51,14 @@ public class player : MonoBehaviour
             {
                 if (Z > -20)
                 {
-                    transform.position += Vector3.forward * -1;
+                    transform.position += Vector3.forward * -0.25f;
                 }
             }
             if (Input.GetKey(KeyCode.DownArrow))
             {
                 if (Z < 20)
                 {
-                    transform.position += Vector3.forward * 1;
+                    transform.position += Vector3.forward * 0.25f;
                 }
             }
             if (Input.GetKey(KeyCode.RightArrow))
@@ -65,7 +69,7 @@ public class player : MonoBehaviour
                 }
                 if (X < 20)
                 {
-                    transform.position += Vector3.right * 1;
+                    transform.position += Vector3.right * 0.25f;
                 }
             }
             else if (Input.GetKey(KeyCode.LeftArrow))
@@ -76,7 +80,7 @@ public class player : MonoBehaviour
                 }
                 if (X > -20)
                 {
-                    transform.position += Vector3.right * -2;
+                    transform.position += Vector3.right * -0.25f;
                 }
             }
             else

@@ -20,9 +20,9 @@ public class IronBeam : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position += Vector3.forward * 1;
+        transform.position += Vector3.forward * 0.5f;
         destroy += Time.deltaTime;
-        if (destroy >10)
+        if (destroy >2)
         {
             Destroy(this.gameObject);
         }

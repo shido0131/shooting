@@ -18,7 +18,7 @@ public class BUllet : MonoBehaviour
     {
         transform.position += Vector3.forward * -2;
         destroy += Time.deltaTime;
-        if (destroy == 20)
+        if (destroy == 5)
         {
             Destroy(this.gameObject);
         }
