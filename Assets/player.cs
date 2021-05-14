@@ -29,6 +29,7 @@ public class player : MonoBehaviour
     {
         reload = 3;
         camera_transform = camera.GetComponent<Transform>();
+        Reload.enabled = false;
         GameClearImage.enabled = false;
         GameOverImage.enabled = false;
         slider.value = 20;
@@ -46,6 +47,14 @@ public class player : MonoBehaviour
             RemainingTimeS -= Time.deltaTime;
             RemainingTime.text = "RemainingTime." + RemainingTimeS.ToString("f2");
             Score.text = "Score." + ScoreS.ToString("f0");
+            if (reload < 3)
+            {
+                Reload.enabled = true;
+            }
+            else
+            {
+                Reload.enabled = false;
+            }
 
             if (Input.GetKey(KeyCode.UpArrow))
             {
@@ -96,11 +105,15 @@ public class player : MonoBehaviour
             }
             if (Input.GetKey(KeyCode.Space))
             {
-                GameObject bullet;
-                bullet = GameObject.Instantiate(Bullet);
-                VZ = transform.position;
-                VZ.z -= 2;
-                bullet.transform.position = VZ;
+                if (reload == 3)
+                {
+                    GameObject bullet;
+                    bullet = GameObject.Instantiate(Bullet);
+                    VZ = transform.position;
+                    VZ.z -= 2;
+                    bullet.transform.position = VZ;
+
+                }
 
             }
             if (slider.value == 0)
