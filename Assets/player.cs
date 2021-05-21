@@ -8,53 +8,43 @@ public class player : MonoBehaviour
     float Z;
     Vector3 VZ;
     float RZ;
-    float RMX;
     public Slider slider;
-    float ScoreS;
-    float RemainingTimeS;
-    float reload;
+    float Scores;
+    float RemainingTimes;
+    float RX;
     public AudioSource shot;
     public AudioSource GameOver;
     public Text RemainingTime;
     public Text Score;
-    public Text Reload;
     public Image GameClearImage;
     public Image GameOverImage;
     public GameObject Bullet;
     public GameObject particle;
-    public GameObject camera;
+    public GameObject Camera;
+    public GameObject GameStart;
     private Transform camera_transform;
     // Start is called before the first frame update
     void Start()
     {
-        reload = 3;
-        camera_transform = camera.GetComponent<Transform>();
-        Reload.enabled = false;
-        GameClearImage.enabled = false;
-        GameOverImage.enabled = false;
+        camera_transform = Camera.GetComponent<Transform>();
+        GameClearImage.gameObject.SetActive(false);
+        GameOverImage.gameObject.SetActive(false);
+        GameStart.gameObject.SetActive(false);
         slider.value = 20;
-        RemainingTimeS = 50;
+        RemainingTimes = 30;
     }
     void Update()
     {
-        if (RemainingTimeS > 0)
+        if (RemainingTimes > 0)
         {
 //camera_transform.position = transform.position;
             X = transform.position.x;
             Z = transform.position.z;
+            RX = transform.rotation.x;
             RZ = transform.rotation.z;
-            Debug.Log(RZ);
-            RemainingTimeS -= Time.deltaTime;
-            RemainingTime.text = "RemainingTime." + RemainingTimeS.ToString("f2");
-            Score.text = "Score." + ScoreS.ToString("f0");
-            if (reload < 3)
-            {
-                Reload.enabled = true;
-            }
-            else
-            {
-                Reload.enabled = false;
-            }
+            RemainingTimes -= Time.deltaTime;
+            RemainingTime.text = "RemainingTime." + RemainingTimes.ToString("f2");
+            Score.text = "Score." + Scores.ToString("f0");
 
             if (Input.GetKey(KeyCode.UpArrow))
             {
@@ -62,12 +52,30 @@ public class player : MonoBehaviour
                 {
                     transform.position += Vector3.forward * -0.25f;
                 }
-            }
-            if (Input.GetKey(KeyCode.DownArrow))
+                if (RX < -0.1)
+                {
+                    transform.Rotate(-1f, 0f, 0f);
+                }
+            }else if (Input.GetKey(KeyCode.DownArrow))
             {
                 if (Z < 20)
                 {
                     transform.position += Vector3.forward * 0.25f;
+                }
+                if (RX < 0.1)
+                {
+                    transform.Rotate(1f, 0f, 0f);
+                }
+            }
+            else
+            {
+                if (RX < 0.008)
+                {
+                    transform.Rotate(0f, 0f, -1f);
+                }
+                else if (RX < -0.008)
+                {
+                    transform.Rotate(0f, 0f, 1f);
                 }
             }
             if (Input.GetKey(KeyCode.RightArrow))
@@ -94,46 +102,46 @@ public class player : MonoBehaviour
             }
             else
             {
-                if (RZ > 0.008)
+                if (RZ > 0.008f)
                 {
                     transform.Rotate(0f, 0f, -1f);
                 }
-                else if (RZ < -0.008)
+                else if (RZ < -0.008f)
                 {
                     transform.Rotate(0f, 0f, 1f);
                 }
             }
-            if (Input.GetKey(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                if (reload == 3)
-                {
                     GameObject bullet;
                     bullet = GameObject.Instantiate(Bullet);
                     VZ = transform.position;
                     VZ.z -= 2;
                     bullet.transform.position = VZ;
 
-                }
-
             }
-            if (slider.value == 0)
+            if (slider.value <= 0)
             {
-                Destroy(this.gameObject);
+                this.gameObject.SetActive(false);
                 GameObject Particle;
                 Particle = GameObject.Instantiate(particle);
                 Particle.transform.position = transform.position;
                 GameOver.PlayOneShot(GameOver.clip);
-            }
-        }else if (RemainingTimeS==0)
-        {
-            Destroy(this.gameObject);
-            if (ScoreS >= 50)
-            {
-                GameClearImage.enabled = true;
-            }
-            else if (ScoreS < 50)
-            {
                 GameOverImage.enabled = true;
+            }
+        }else if (RemainingTimes<0)
+        {
+            this.gameObject.SetActive(false);
+            if (Scores > 50)
+            {
+                GameClearImage.gameObject.SetActive(true);
+                GameStart.gameObject.SetActive(true);
+            }
+            else if (Scores <= 50)
+            {
+                GameOverImage.gameObject.SetActive(true);
+                GameStart.gameObject.SetActive(true);
+                GameOver.PlayOneShot(GameOver.clip);
             }
         }
     }
