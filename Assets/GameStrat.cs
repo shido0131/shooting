@@ -4,13 +4,20 @@ using UnityEngine;
 
 public class GameStrat : MonoBehaviour
 {
-    //public string player = "RemainingTimes";
     public GameObject Player;
     // Start is called before the first frame update
     void Start()
     {
-        this.gameObject.SetActive(false);
-        Player.gameObject.SetActive(true);
+        
+    }
+    public void setinitialize()
+    {
+
+        Debug.Log("click");
+        Player.SetActive(true);
+        //this.gameObject.SetActive(false);
+        Player.GetComponent<player>().Initialize();
+        
     }
 
     // Update is called once per frame

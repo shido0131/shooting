@@ -26,18 +26,25 @@ public class player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //this.gameObject.SetActive(false);
         camera_transform = Camera.GetComponent<Transform>();
         GameClearImage.gameObject.SetActive(false);
         GameOverImage.gameObject.SetActive(false);
-        GameStart.gameObject.SetActive(false);
         slider.value = 20;
         RemainingTimes = 30;
+    }
+    public void Initialize()
+    {
+        /*GameClearImage.gameObject.SetActive(false);
+        GameOverImage.gameObject.SetActive(false);
+        slider.value = 20;
+        RemainingTimes = 30;*/
     }
     void Update()
     {
         if (RemainingTimes > 0)
         {
-//camera_transform.position = transform.position;
+            //camera_transform.position = transform.position;
             X = transform.position.x;
             Z = transform.position.z;
             RX = transform.rotation.x;
@@ -56,7 +63,8 @@ public class player : MonoBehaviour
                 {
                     transform.Rotate(-1f, 0f, 0f);
                 }
-            }else if (Input.GetKey(KeyCode.DownArrow))
+            }
+            else if (Input.GetKey(KeyCode.DownArrow))
             {
                 if (Z < 20)
                 {
@@ -78,6 +86,7 @@ public class player : MonoBehaviour
                     transform.Rotate(0f, 0f, 1f);
                 }
             }
+
             if (Input.GetKey(KeyCode.RightArrow))
             {
                 if (RZ < 0.2)
@@ -111,15 +120,17 @@ public class player : MonoBehaviour
                     transform.Rotate(0f, 0f, 1f);
                 }
             }
+
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                    GameObject bullet;
-                    bullet = GameObject.Instantiate(Bullet);
-                    VZ = transform.position;
-                    VZ.z -= 2;
-                    bullet.transform.position = VZ;
+                GameObject bullet;
+                bullet = GameObject.Instantiate(Bullet);
+                VZ = transform.position;
+                VZ.z -= 2;
+                bullet.transform.position = VZ;
 
             }
+
             if (slider.value <= 0)
             {
                 this.gameObject.SetActive(false);
@@ -129,7 +140,8 @@ public class player : MonoBehaviour
                 GameOver.PlayOneShot(GameOver.clip);
                 GameOverImage.enabled = true;
             }
-        }else if (RemainingTimes<0)
+        }
+        else if (RemainingTimes < 0)
         {
             this.gameObject.SetActive(false);
             if (Scores > 50)
