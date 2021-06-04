@@ -17,7 +17,7 @@ public class camera : MonoBehaviour
     void Update()
     {
         posi = Player_transform.position;
-        transform.position = new Vector3(posi.x ,posi.y+0.8f, posi.z + 1.5f);
+        transform.position = new Vector3(posi.x ,posi.y+1f, posi.z + 2f);
     }
     
 }

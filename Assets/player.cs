@@ -4,41 +4,51 @@ using UnityEngine;
 using UnityEngine.UI;
 public class player : MonoBehaviour
 {
+    public static GameObject Player;
     float X;
-    float Z;
+    float Y;
     Vector3 VZ;
     float RZ;
     public Slider slider;
     float Scores;
     float RemainingTimes;
     float RX;
+    float Rundom;
     public AudioSource shot;
     public AudioSource GameOver;
+    public Text ReatS;
+    public Text ReatA;
+    public Text ReatB;
+    public Text ReatC;
+    public Text ReatE;
     public Text RemainingTime;
     public Text Score;
-    public Image GameClearImage;
-    public Image GameOverImage;
     public GameObject Bullet;
     public GameObject particle;
     public GameObject Camera;
-    public GameObject GameStart;
+    //public GameObject ClickHere;
     private Transform camera_transform;
     // Start is called before the first frame update
     void Start()
     {
         //this.gameObject.SetActive(false);
+        ReatS.gameObject.SetActive(false);
+        ReatA.gameObject.SetActive(false);
+        ReatB.gameObject.SetActive(false);
+        ReatC.gameObject.SetActive(false);
+        ReatE.gameObject.SetActive(false);
         camera_transform = Camera.GetComponent<Transform>();
-        GameClearImage.gameObject.SetActive(false);
-        GameOverImage.gameObject.SetActive(false);
         slider.value = 20;
         RemainingTimes = 30;
     }
+    public void ScorePlus()
+    {
+        Rundom = Random.Range(1, 5);
+        Scores += Rundom;
+    }
     public void Initialize()
     {
-        /*GameClearImage.gameObject.SetActive(false);
-        GameOverImage.gameObject.SetActive(false);
-        slider.value = 20;
-        RemainingTimes = 30;*/
+
     }
     void Update()
     {
@@ -46,7 +56,7 @@ public class player : MonoBehaviour
         {
             //camera_transform.position = transform.position;
             X = transform.position.x;
-            Z = transform.position.z;
+            Y = transform.position.y;
             RX = transform.rotation.x;
             RZ = transform.rotation.z;
             RemainingTimes -= Time.deltaTime;
@@ -55,35 +65,16 @@ public class player : MonoBehaviour
 
             if (Input.GetKey(KeyCode.UpArrow))
             {
-                if (Z > -20)
+                if (Y < 20)
                 {
-                    transform.position += Vector3.forward * -0.25f;
-                }
-                if (RX < -0.1)
-                {
-                    transform.Rotate(-1f, 0f, 0f);
+                    transform.position += Vector3.up * 0.5f;
                 }
             }
             else if (Input.GetKey(KeyCode.DownArrow))
             {
-                if (Z < 20)
+                if (Y > -20)
                 {
-                    transform.position += Vector3.forward * 0.25f;
-                }
-                if (RX < 0.1)
-                {
-                    transform.Rotate(1f, 0f, 0f);
-                }
-            }
-            else
-            {
-                if (RX < 0.008)
-                {
-                    transform.Rotate(0f, 0f, -1f);
-                }
-                else if (RX < -0.008)
-                {
-                    transform.Rotate(0f, 0f, 1f);
+                    transform.position += Vector3.up * -0.5f;
                 }
             }
 
@@ -95,7 +86,7 @@ public class player : MonoBehaviour
                 }
                 if (X < 20)
                 {
-                    transform.position += Vector3.right * 0.25f;
+                    transform.position += Vector3.right * 0.5f;
                 }
             }
             else if (Input.GetKey(KeyCode.LeftArrow))
@@ -106,7 +97,7 @@ public class player : MonoBehaviour
                 }
                 if (X > -20)
                 {
-                    transform.position += Vector3.right * -0.25f;
+                    transform.position += Vector3.right * -0.5f;
                 }
             }
             else
@@ -130,30 +121,31 @@ public class player : MonoBehaviour
                 bullet.transform.position = VZ;
 
             }
-
-            if (slider.value <= 0)
-            {
-                this.gameObject.SetActive(false);
-                GameObject Particle;
-                Particle = GameObject.Instantiate(particle);
-                Particle.transform.position = transform.position;
-                GameOver.PlayOneShot(GameOver.clip);
-                GameOverImage.enabled = true;
-            }
         }
         else if (RemainingTimes < 0)
         {
-            this.gameObject.SetActive(false);
-            if (Scores > 50)
+            if (Scores >= 20)
             {
-                GameClearImage.gameObject.SetActive(true);
-                GameStart.gameObject.SetActive(true);
+                ReatS.gameObject.SetActive(true);
             }
-            else if (Scores <= 50)
+            else
+                if (Scores >= 15)
             {
-                GameOverImage.gameObject.SetActive(true);
-                GameStart.gameObject.SetActive(true);
-                GameOver.PlayOneShot(GameOver.clip);
+                ReatA.gameObject.SetActive(true);
+            }
+            else
+                if (Scores >= 10)
+            {
+                ReatB.gameObject.SetActive(true);
+            }
+            else
+                if (Scores >= 5)
+            {
+                ReatC.gameObject.SetActive(true);
+            }
+            else
+            {
+                ReatE.gameObject.SetActive(true);
             }
         }
     }
@@ -174,6 +166,15 @@ public class player : MonoBehaviour
             Debug.Log("Damege");
             Destroy(collision.gameObject);
             shot.PlayOneShot(shot.clip);
+        }
+        if (slider.value <= 0)
+        {
+            ReatE.gameObject.SetActive(true);
+            this.gameObject.SetActive(false);
+            GameObject Particle;
+            Particle = GameObject.Instantiate(particle);
+            Particle.transform.position = transform.position;
+            GameOver.PlayOneShot(GameOver.clip);
         }
 
     }

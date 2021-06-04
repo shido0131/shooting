@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BUllet : MonoBehaviour
 {
+    GameObject Player.FindWihtTag;
     public GameObject particle;
     public AudioSource shot;
     public float destroy;
