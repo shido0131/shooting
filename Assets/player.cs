@@ -14,15 +14,14 @@ public class player : MonoBehaviour
     float RemainingTimes;
     float RX;
     float Rundom;
+    public Text Reat;
     public AudioSource shot;
     public AudioSource GameOver;
-    public Text ReatS;
-    public Text ReatA;
-    public Text ReatB;
-    public Text ReatC;
-    public Text ReatE;
     public Text RemainingTime;
     public Text Score;
+    public Text T1;
+    public Text T2;
+    public Text T3;
     public GameObject Bullet;
     public GameObject particle;
     public GameObject Camera;
@@ -31,15 +30,10 @@ public class player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //this.gameObject.SetActive(false);
-        ReatS.gameObject.SetActive(false);
-        ReatA.gameObject.SetActive(false);
-        ReatB.gameObject.SetActive(false);
-        ReatC.gameObject.SetActive(false);
-        ReatE.gameObject.SetActive(false);
         camera_transform = Camera.GetComponent<Transform>();
+        Reat.gameObject.SetActive(false);
         slider.value = 20;
-        RemainingTimes = 30;
+        RemainingTimes = 3;
     }
     public void ScorePlus()
     {
@@ -124,28 +118,42 @@ public class player : MonoBehaviour
         }
         else if (RemainingTimes < 0)
         {
+            T1.gameObject.SetActive(false);
+            T2.gameObject.SetActive(false);
+            T3.gameObject.SetActive(false);
+            Reat.gameObject.SetActive(true);
             if (Scores >= 20)
             {
-                ReatS.gameObject.SetActive(true);
+                Text Bule =Reat.GetComponent<Text>();
+                Bule.color=new Color(0f,0f,1f,1f);
+                Reat.text = "Reat.S";
             }
             else
                 if (Scores >= 15)
             {
-                ReatA.gameObject.SetActive(true);
+                Text Yerow =Reat.GetComponent<Text>();
+                Yerow.color=new Color(1f,1f,0f,1f);
+                Reat.text = "Reat.A";
             }
             else
                 if (Scores >= 10)
             {
-                ReatB.gameObject.SetActive(true);
+                Text Orange =Reat.GetComponent<Text>();
+                Orange.color=new Color(1f,0.5f,0f,1f);
+                Reat.text = "Reat.B";
             }
             else
                 if (Scores >= 5)
             {
-                ReatC.gameObject.SetActive(true);
+                Text Green =Reat.GetComponent<Text>();
+                Green.color=new Color(0f,1f,0f,1f);
+                Reat.text = "Reat.C";
             }
             else
             {
-                ReatE.gameObject.SetActive(true);
+                Text Brown =Reat.GetComponent<Text>();
+                Brown.color=new Color(0.5f,0.2f,0f,1f);
+                Reat.text = "Reat.E";
             }
         }
     }
@@ -169,7 +177,6 @@ public class player : MonoBehaviour
         }
         if (slider.value <= 0)
         {
-            ReatE.gameObject.SetActive(true);
             this.gameObject.SetActive(false);
             GameObject Particle;
             Particle = GameObject.Instantiate(particle);
