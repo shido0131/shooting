@@ -10,13 +10,13 @@ public class GameStrat : MonoBehaviour
     {
 
     }
-    public void setinitialize()
+    public void setplay()
     {
 
         Debug.Log("click");
         Player.SetActive(true);
         //this.gameObject.SetActive(false);
-        Player.GetComponent<player>().Initialize();
+        Player.GetComponent<PlayS>().gameset();
         
     }
 

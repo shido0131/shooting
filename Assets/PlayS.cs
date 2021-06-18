@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class play : MonoBehaviour
+
+public class PlayS : MonoBehaviour
 {
     public static GameObject Player;
     float X;
@@ -37,6 +38,7 @@ public class play : MonoBehaviour
     //public GameObject ClickHere;
     private Transform camera_transform;
     // Start is called before the first frame update
+    // Start is called before the first frame update
     void Start()
     {
         played = false;
@@ -52,7 +54,18 @@ public class play : MonoBehaviour
         MC10.gameObject.SetActive(false);
         camera_transform = Camera.GetComponent<Transform>();
     }
-    
+    public void gameset()
+    {
+        played = true;
+        RemainingTimes = 30;
+        Scores = 0;
+    }
+    public void ScorePlus()
+    {
+        Rundom = Random.Range(1f,5f);
+    }
+
+    // Update is called once per frame
     void Update()
     {
         if (RemainingTimes > 0)
