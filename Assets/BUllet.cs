@@ -6,7 +6,7 @@ public class BUllet : MonoBehaviour
 {
     public GameObject Player;
     public AudioSource shot;
-    public float destroy;
+    float destroy;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,7 +27,7 @@ public class BUllet : MonoBehaviour
     {
         if (other.gameObject.tag == "Meteo")
         {
-            Player.GetComponent<PlayS>().ScorePlus;
+            Player.GetComponent<PlayS>().ScorePlus();
                shot.PlayOneShot(shot.clip);
             Destroy(other.gameObject);
             Destroy(this.gameObject);

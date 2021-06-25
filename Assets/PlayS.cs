@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class PlayS : MonoBehaviour
 {
+    bool played;
     public static GameObject Player;
     float X;
     float Y;
@@ -34,7 +35,7 @@ public class PlayS : MonoBehaviour
     public GameObject MC8;
     public GameObject MC9;
     public GameObject MC10;
-    public bool played;
+    
     //public GameObject ClickHere;
     private Transform camera_transform;
     // Start is called before the first frame update
@@ -42,6 +43,15 @@ public class PlayS : MonoBehaviour
     void Start()
     {
         played = false;
+        camera_transform = Camera.GetComponent<Transform>();
+    }
+    public void gameset()
+    {
+        RemainingTime.gameObject.SetActive(true);
+        Score.gameObject.SetActive(true);
+        slider.gameObject.SetActive(true);
+        Reat.gameObject.SetActive(false);
+        button.gameObject.SetActive(false);
         MC1.gameObject.SetActive(false);
         MC2.gameObject.SetActive(false);
         MC3.gameObject.SetActive(false);
@@ -52,13 +62,14 @@ public class PlayS : MonoBehaviour
         MC8.gameObject.SetActive(false);
         MC9.gameObject.SetActive(false);
         MC10.gameObject.SetActive(false);
-        camera_transform = Camera.GetComponent<Transform>();
-    }
-    public void gameset()
-    {
         played = true;
         RemainingTimes = 30;
-        Scores = 0;
+        slider.value = 0;
+        Scores = 20;
+        if (particle.gameObject.activeSelf==true)
+        {
+            Destroy(particle);
+        }
     }
     public void ScorePlus()
     {
@@ -156,38 +167,40 @@ public class PlayS : MonoBehaviour
             slider.gameObject.SetActive(false);
             Reat.gameObject.SetActive(true);
             button.gameObject.SetActive(true);
+            GameObject pati;
+            pati = GameObject.Instantiate(particle);
             if (Scores >= 20)
             {
                 Text Bule = Reat.GetComponent<Text>();
                 Bule.color = new Color(0f, 0f, 1f, 1f);
-                Reat.text = "Reat.S";
+                Reat.text = "Raet.S";
             }
             else
                 if (Scores >= 15)
             {
                 Text Yerow = Reat.GetComponent<Text>();
                 Yerow.color = new Color(1f, 1f, 0f, 1f);
-                Reat.text = "Reat.A";
+                Reat.text = "Raet.A";
             }
             else
                 if (Scores >= 10)
             {
                 Text Orange = Reat.GetComponent<Text>();
                 Orange.color = new Color(1f, 0.5f, 0f, 1f);
-                Reat.text = "Reat.B";
+                Reat.text = "Raet.B";
             }
             else
                 if (Scores >= 5)
             {
                 Text Green = Reat.GetComponent<Text>();
                 Green.color = new Color(0f, 1f, 0f, 1f);
-                Reat.text = "Reat.C";
+                Reat.text = "Raet.C";
             }
             else
             {
                 Text Brown = Reat.GetComponent<Text>();
                 Brown.color = new Color(0.5f, 0.2f, 0f, 1f);
-                Reat.text = "Reat.E";
+                Reat.text = "Raet.E";
             }
         }
     }
